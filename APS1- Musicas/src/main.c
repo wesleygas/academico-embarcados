@@ -7,9 +7,10 @@
 /************************************************************************/
 /* includes                                                             */
 /************************************************************************/
-
 #include "asf.h"
 #include "notes.h"
+#include "songs.h"
+
 /************************************************************************/
 /* defines                                                              */
 /************************************************************************/
@@ -46,136 +47,6 @@
 #define BUZZ_PIO_ID		  ID_PIOA
 #define BUZZ_PIO_IDX       6u
 #define BUZZ_PIO_IDX_MASK  (1u << BUZZ_PIO_IDX)
-
-
-/************************************************************************/
-/* constants                                                            */
-/************************************************************************/
-//8 Notas
-int melodia1[] = {NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3, 0, NOTE_B3, NOTE_C4};
-int melodia1Durations[] = {	250, 125, 125, 250, 250, 250, 250, 250 };
-	
-//x notas
-int despacito[] = {NOTE_D5,NOTE_CS5,NOTE_B4,NOTE_FS4,0,NOTE_FS4,NOTE_FS4,NOTE_FS4,NOTE_FS4,NOTE_FS4,NOTE_B4,NOTE_G4,NOTE_G6};
-//14 notas
-int starWars[] = {NOTE_G4, NOTE_G4, NOTE_G4, NOTE_DS4, NOTE_GS4, NOTE_G4, NOTE_DS4, NOTE_GS4, NOTE_G4, 0, NOTE_E5, NOTE_E5, NOTE_E5, NOTE_F5};
-int starWarsDuration[] = {500,500,500,350,150,500,350,150,650, 350, 500, 500, 500, 350};
-
-//203 notas
-int piratasDoCaribe[] = {       //Note of the song, 0 is a rest/pulse
-	NOTE_E4, NOTE_G4, NOTE_A4, NOTE_A4, 0,
-	NOTE_A4, NOTE_B4, NOTE_C5, NOTE_C5, 0,
-	NOTE_C5, NOTE_D5, NOTE_B4, NOTE_B4, 0,
-	NOTE_A4, NOTE_G4, NOTE_A4, 0,
-	
-	NOTE_E4, NOTE_G4, NOTE_A4, NOTE_A4, 0,
-	NOTE_A4, NOTE_B4, NOTE_C5, NOTE_C5, 0,
-	NOTE_C5, NOTE_D5, NOTE_B4, NOTE_B4, 0,
-	NOTE_A4, NOTE_G4, NOTE_A4, 0,
-	
-	NOTE_E4, NOTE_G4, NOTE_A4, NOTE_A4, 0,
-	NOTE_A4, NOTE_C5, NOTE_D5, NOTE_D5, 0,
-	NOTE_D5, NOTE_E5, NOTE_F5, NOTE_F5, 0,
-	NOTE_E5, NOTE_D5, NOTE_E5, NOTE_A4, 0,
-	
-	NOTE_A4, NOTE_B4, NOTE_C5, NOTE_C5, 0,
-	NOTE_D5, NOTE_E5, NOTE_A4, 0,
-	NOTE_A4, NOTE_C5, NOTE_B4, NOTE_B4, 0,
-	NOTE_C5, NOTE_A4, NOTE_B4, 0,
-
-	NOTE_A4, NOTE_A4,
-	//Repeat of first part
-	NOTE_A4, NOTE_B4, NOTE_C5, NOTE_C5, 0,
-	NOTE_C5, NOTE_D5, NOTE_B4, NOTE_B4, 0,
-	NOTE_A4, NOTE_G4, NOTE_A4, 0,
-
-	NOTE_E4, NOTE_G4, NOTE_A4, NOTE_A4, 0,
-	NOTE_A4, NOTE_B4, NOTE_C5, NOTE_C5, 0,
-	NOTE_C5, NOTE_D5, NOTE_B4, NOTE_B4, 0,
-	NOTE_A4, NOTE_G4, NOTE_A4, 0,
-	
-	NOTE_E4, NOTE_G4, NOTE_A4, NOTE_A4, 0,
-	NOTE_A4, NOTE_C5, NOTE_D5, NOTE_D5, 0,
-	NOTE_D5, NOTE_E5, NOTE_F5, NOTE_F5, 0,
-	NOTE_E5, NOTE_D5, NOTE_E5, NOTE_A4, 0,
-	
-	NOTE_A4, NOTE_B4, NOTE_C5, NOTE_C5, 0,
-	NOTE_D5, NOTE_E5, NOTE_A4, 0,
-	NOTE_A4, NOTE_C5, NOTE_B4, NOTE_B4, 0,
-	NOTE_C5, NOTE_A4, NOTE_B4, 0,
-	//End of Repeat
-
-	NOTE_E5, 0, 0, NOTE_F5, 0, 0,
-	NOTE_E5, NOTE_E5, 0, NOTE_G5, 0, NOTE_E5, NOTE_D5, 0, 0,
-	NOTE_D5, 0, 0, NOTE_C5, 0, 0,
-	NOTE_B4, NOTE_C5, 0, NOTE_B4, 0, NOTE_A4,
-
-	NOTE_E5, 0, 0, NOTE_F5, 0, 0,
-	NOTE_E5, NOTE_E5, 0, NOTE_G5, 0, NOTE_E5, NOTE_D5, 0, 0,
-	NOTE_D5, 0, 0, NOTE_C5, 0, 0,
-	NOTE_B4, NOTE_C5, 0, NOTE_B4, 0, NOTE_A4
-};
-
-int piratasDuration[] = {         //duration of each note (in ms) Quarter Note is set to 250 ms
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 375, 125,
-	
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 375, 125,
-	
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 125, 250, 125,
-
-	125, 125, 250, 125, 125,
-	250, 125, 250, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 375, 375,
-
-	250, 125,
-	//Rpeat of First Part
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 375, 125,
-	
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 375, 125,
-	
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 125, 250, 125,
-
-	125, 125, 250, 125, 125,
-	250, 125, 250, 125,
-	125, 125, 250, 125, 125,
-	125, 125, 375, 375,
-	//End of Repeat
-	
-	250, 125, 375, 250, 125, 375,
-	125, 125, 125, 125, 125, 125, 125, 125, 375,
-	250, 125, 375, 250, 125, 375,
-	125, 125, 125, 125, 125, 500,
-
-	250, 125, 375, 250, 125, 375,
-	125, 125, 125, 125, 125, 125, 125, 125, 375,
-	250, 125, 375, 250, 125, 375,
-	125, 125, 125, 125, 125, 500
-};
-
-/************************************************************************/
-/* variaveis globais                                                    */
-/************************************************************************/
-int current_mus = 0;
-int is_playing = 0;
-
 
 /************************************************************************/
 /* prototypes                                                           */
@@ -252,15 +123,46 @@ void buzz(int frequency, int duration){
 	
 }
 
+
+
+int mus_selector()
+{
+	if(!pio_get(BUT_PIO,PIO_INPUT,BUT_PIO_IDX_MASK)){
+		current_mus = 0;
+		pio_clear(LED1_PIO, LED1_PIO_IDX_MASK);
+		pio_set(LED2_PIO,LED2_MASK);
+		pio_set(LED3_PIO,LED3_MASK);
+		return 0;
+	}
+	if(!pio_get(BUT2_PIO,PIO_INPUT,BUT2_MASK)){
+		current_mus = 1;
+		pio_clear(LED2_PIO, LED2_MASK);
+		pio_set(LED3_PIO,LED3_MASK);
+		pio_set(LED1_PIO,LED1_PIO_IDX_MASK);
+		return 1;
+	}
+	if(!pio_get(BUT3_PIO,PIO_INPUT,BUT3_MASK)){
+		current_mus = 2;
+		pio_clear(LED3_PIO, LED3_MASK);
+		pio_set(LED1_PIO,LED1_PIO_IDX_MASK);
+		pio_set(LED2_PIO,LED2_MASK);
+		return 2;
+	}
+	
+}
+
 /************************************************************************/
 /* Main                                                                 */
 /************************************************************************/
+
 
 // Funcao principal chamada na inicalizacao do uC.
 int main(void)
 {
   init();
-
+  int current_mus = 0;
+  int is_playing = 0;
+  
   // super loop
   // aplicacoes embarcadas não devem sair do while(1).
   while (1){	
@@ -291,28 +193,12 @@ int main(void)
 				break;
 		}
 	}
-
-	if(!pio_get(BUT_PIO,PIO_INPUT,BUT_PIO_IDX_MASK)){
-		current_mus = 0;
-		pio_clear(LED1_PIO, LED1_PIO_IDX_MASK);
-		pio_set(LED2_PIO,LED2_MASK);
-		pio_set(LED3_PIO,LED3_MASK);
-	}
-	if(!pio_get(BUT2_PIO,PIO_INPUT,BUT2_MASK)){
-		current_mus = 1;
-		pio_clear(LED2_PIO, LED2_MASK);
-		pio_set(LED3_PIO,LED3_MASK);
-		pio_set(LED1_PIO,LED1_PIO_IDX_MASK);
-	}
-	if(!pio_get(BUT3_PIO,PIO_INPUT,BUT3_MASK)){
-		current_mus = 2;
-		pio_clear(LED3_PIO, LED3_MASK);
-		pio_set(LED1_PIO,LED1_PIO_IDX_MASK);
-		pio_set(LED2_PIO,LED2_MASK);
-	}
+	
+	current_mus = mus_selector();
 	if(!pio_get(BUT4_PIO,PIO_INPUT,BUT4_MASK)){
 		is_playing = 1;
 	}
+	
 	
   }
   return 0;
