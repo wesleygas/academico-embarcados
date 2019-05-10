@@ -27,7 +27,7 @@
 /************************************************************************/
 volatile int but1_flag = 0;
 volatile int up_flag = 1;
-volatile int displ_value = 0;
+volatile double displ_value = 0;
 
 /************************************************************************/
 /* handlers/callbacks                                                   */
@@ -55,7 +55,7 @@ void TC0_Handler(void){
 	/** Muda o estado do LED */
 	//but1_flag = 1;
 	up_flag = 1;
-	displ_value++;
+	displ_value+=0.1;
 }
 
 
@@ -129,7 +129,7 @@ void TC_init(Tc * TC, int ID_TC, int TC_CHANNEL, int freq){
 int main (void)
 {
 
-	int displ_value = 0;
+	//double displ_value = 0;
 	char string_cache[16];
 	board_init();
 	TC_init(TC0,ID_TC0,0,500);
@@ -148,12 +148,12 @@ int main (void)
 		if(but1_flag){
 			pin_toggle(LED_PIO,LED_MASK);
 			but1_flag = 0;
+			displ_value+= 1;
 		}
 		if(up_flag){
 			up_flag=0;
-			displ_value++;
-			itoa(displ_value,string_cache,10);
-			
+			//displ_value+=0.01;
+			sprintf(string_cache,"%.2f",displ_value);
 			gfx_mono_draw_string(string_cache,5,5,&sysfont);
 		}
 		//pmc_sleep(SLEEPMGR_SLEEP_WFI);
