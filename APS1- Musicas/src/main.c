@@ -16,9 +16,7 @@
 /************************************************************************/
 
 #define LED1_PIO           PIOA
-#define LED1_PIO_ID        ID_PIOA //É 10 pro A
-#define LED1_PIO_IDX       0u
-#define LED1_PIO_IDX_MASK  (1u << LED1_PIO_IDX)
+#define LED1_PIO_IDX_MASK  (1u << 0u)
 
 #define LED2_PIO	PIOC
 #define LED2_MASK	(1u << 30)
